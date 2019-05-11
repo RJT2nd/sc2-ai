@@ -7,11 +7,11 @@ import time
 # SC2 Imports
 import sc2
 from sc2 import run_game, maps, Race, Difficulty, position, Result
-from sc2.player import Bot, Computer
+from sc2.player import Bot, Computer, Human
 from sc2.constants import NEXUS, PROBE, PYLON, ASSIMILATOR, GATEWAY, \
 CYBERNETICSCORE, STALKER, STARGATE, VOIDRAY, OBSERVER, ROBOTICSFACILITY
 
-HEADLESS = False
+HEADLESS = True
 
 class RobertBot(sc2.BotAI):
     def __init__(self):
@@ -273,8 +273,11 @@ class RobertBot(sc2.BotAI):
         #         for u in self.units(unit).idle:
         #             await self.do(u.attack(random.choice(self.known_enemy_units)))
 
+def main():
+    run_game(maps.get("AbyssalReefLE"), [
+        Bot(Race.Protoss, RobertBot(), name="RobbyT"),
+        Computer(Race.Terran, Difficulty.Hard),
+    ], realtime=False)
 
-run_game(maps.get("AbyssalReefLE"), [
-    Bot(Race.Protoss, RobertBot()),
-    Computer(Race.Terran, Difficulty.Hard)
-], realtime=False)
+if __name__ == '__main__':
+    main()

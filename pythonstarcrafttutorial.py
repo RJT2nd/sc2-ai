@@ -104,13 +104,13 @@ class RobertBot(sc2.BotAI):
         if vespene_ratio > 1.0:
             vespene_ratio = 1.0
 
-        population_ratio = self.supply_left / self.supply_cap
+        population_ratio = self.supply_left / (self.supply_cap + .00001)
         if population_ratio > 1.0:
             population_ratio = 1.0
         
         plausible_supply = self.supply_cap / 200.0
 
-        military_weight = len(self.units(VOIDRAY)) / (self.supply_cap - self.supply_left)
+        military_weight = len(self.units(VOIDRAY)) / (self.supply_cap - self.supply_left + .00001)
         if military_weight > 1.0:
             military_weight = 1.0
 
@@ -274,10 +274,13 @@ class RobertBot(sc2.BotAI):
         #             await self.do(u.attack(random.choice(self.known_enemy_units)))
 
 def main():
-    run_game(maps.get("AbyssalReefLE"), [
-        Bot(Race.Protoss, RobertBot(), name="RobbyT"),
-        Computer(Race.Terran, Difficulty.Hard),
-    ], realtime=False)
+    i = 0
+    while i < 10:
+        run_game(maps.get("AutomatonLE"), [
+            Bot(Race.Protoss, RobertBot(), name="RobbyT"),
+            Computer(Race.Zerg, Difficulty.Hard),
+        ], realtime=False)
+        i = i + 1
 
 if __name__ == '__main__':
     main()
